@@ -1,0 +1,13 @@
+.start {
+    width: 45px;
+    height: 35px;
+    color: black;
+    background-color: grey;
+    border-radius: 50%;
+    border: 1px solid black;
+    font-weight: bold;
+}
+
+.instructions {
+    border: 1px solid black;
+}
