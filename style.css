@@ -7,7 +7,26 @@
     border: 1px solid black;
     font-weight: bold;
 }
-
+.container{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+}
 .instructions {
     border: 1px solid black;
+    width: 200 px;  
+    position: absolute;
+    margin-top:50px;
+    margin-left: 970px;
+
+}
+div img{
+    width: 350px;
+    height: 600px;
+}
+
+.score {
+    border: 1px solid black;
+    
+    
 }

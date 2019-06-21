@@ -1,14 +1,9 @@
-const canvas = document.querySelector('.canvas')
-const ctx = canvas.getContext('2d')
-const canvas2 = document.querySelector('.instructions')
-const ctx2 = canvas2.getContext('2d')
-let score = document.querySelector ('.score')
-let btn = document.querySelector ('button')
+
 
 //aqui se dibuja el canvas 2 que es el de las instrucciones
 function drawCanvas2() {
-ctx2.fillStyle = "green";
-ctx2.fillRect(10, 10, canvas2.width, canvas2.height)
+
+
 }
 
 
@@ -16,189 +11,51 @@ ctx2.fillRect(10, 10, canvas2.width, canvas2.height)
 let interval = 0
 let springer = []
 let frames = 0
-score = 0
+let score = 0
 let lsd = []
 let lsdTimer = 0
 let bullets = [] 
 
 
 
-const images = {
-    background: 'https://i.etsystatic.com/11598164/r/il/0daf56/933217164/il_794xN.933217164_htw0.jpg',
-    cocker: './crypto.png',
-    springer: './mathias3.png',
-    lsd: './lsd.png',
-    background2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpOWYR9obPbf4mKwJWuGAZBnHGemwOqUa-mS8r2g-ttj0YMcA7bQ',
-    bullet: './bone.png'
-
-}
-
-//classes
-
-class Board {
-    constructor(img){
-        this.x = 0
-        this.y = 0
-        this.width = canvas.width
-        this.height = canvas.height
-        this.img = new Image()
-        this.img.src = images.background
-        this.img2 = new Image()
-        this.img2.src = images.background2
-        this.img.onload = () => {
-            this.draw()
-        }
-        this.audio = new Audio()
-        this.audio.src = './musica juego.mp3'
-        this.audio1 = new Audio()
-        this.audio1.src = './ladridos3.mp3'
-        this.audio2 = new Audio ()
-        this.audio2.src = './moonmen.mp3'
-    }
-    move() {
-        this.x--
-        if(this.x<- canvas.width) this.x = 0
-    }
-    //esto pinta un fondo cuando se termina el otro
-    draw(){
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-        ctx.drawImage(this.img, this.x + canvas.width, this.y, this.width, this.height)
-        this.move()
-    }
-    draw2(){
-        ctx.drawImage(this.img2, this.x, this.y, this.width, this.height)
-        ctx.drawImage(this.img2, this.x + canvas.width, this.y, this.width, this.height)
-        this.move()
-    }
-}
-    
-
-
-class Character {
-    constructor(x, y, img) {
-      this.x = x
-      this.y = y
-      this.width = 35
-      this.height = 55
-      this.img = new Image()
-      this.img.src = images.cocker
-      this.img.onload = () => {
-        this.draw()
-    }
-    } 
-    draw() {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-      }
-      fire() {
-
-      }
-      isTouching(spaniel) {
-        return (
-          this.x < spaniel.x + spaniel.width &&
-          this.x + this.width > spaniel.x &&
-          this.y < spaniel.y + spaniel.height &&
-          this.y + this.height > spaniel.y
-        )
-      }
-    moveUp() {
-    if (this.y > canvas.height - this.height - 10) return
-    this.y-= 10
-      }
-    moveDown() {
-        if (this.y > canvas.height - this.height - 10) return
-        this.y+= 10
-          }
-    moveRight() {
-    if (this.x > canvas.width - this.width - 10) return
-     this.x+= 10
-    }
-    moveLeft() {
-        if (this.x > canvas.width - this.width - 10) return
-         this.x-= 10
-        }
-        shoot () {
-            //funcion de disparo
-        }
-}
-
-class Bullet {
-    constructor (x,y) {
-        this.x = x
-        this.y = y
-        this.width = 30
-        this.height = 10
-        this.img = new Image()
-        this.img.src = images.bullet
-    }
-    draw() {
-        ctx.drawImage(this.img, this.x, this.y)
-        this.x++
-        // if (this.x>canvas.width) {
-        //     ctx.cl
-        // }
-      }
-    
-}
-
-
-
-class Springer {
-    constructor (y, img) {
-     this.x = canvas.width
-     this.y = y
-     this.width = 40
-     this.height = 60
-     this.health = 50
-     this.img = new Image
-     this.img.src = images.springer
-    }
-     draw() {
-         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-         this.x--
-    }
-}
-
-class Bonus {
-    constructor (y, img){
-        this.x = canvas.width
-        this.y = y
-        this.width = 30
-        this.height = 30
-        this.img = new Image
-        this.img.src = images.lsd
-    }
-    draw() {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-        this.x--
-
-}
-}
-
 
 // instancias
 const board = new Board(images.background)
 const cocker = new Character(10,  350, images.cocker)
 
-function createBullet (dog) {
-    bullets.push(new Bullet(dog.x, dog.y))
+
+
+function drawBullet(){
+    
+    bullets.forEach((element, i) => {
+      if(element.x > canvas.width){
+        return bullets.splice(i, 1);
+        }
+        
+        element.draw()
+      springer.forEach((element1, index) =>{
+        if(element.collision(element1)) {
+            bullets.splice(i, 1)
+            springer.splice(index, 1)
+            score+=2
+            scoreTag.innerHTML = score
+        }
+   })
+    })
 }
 
-function shootBullet(dog) {
-    createBullet(dog)
-    bullets.forEach((bullets) => {
-        bullets.draw()
-})
+function randomNum (max, min) {
+    return Math.floor(Math.random()*(max-min)+min)
 }
-
 
 function generateLsd() {
-    let aux = Math.floor(Math.random() * canvas.height - 50)
+    let aux = randomNum (30, 550)
     lsd.push(new Bonus(aux))
   }
 
   function drawLsd() {
    
-    if (frames % 100 === 0) {
+    if (frames % 500 === 0) {
       generateLsd()    
     }
     lsd.forEach(lsd => {
@@ -209,22 +66,24 @@ function generateLsd() {
   function checkCollition1() {
     lsd.map(element => {
       if (cocker.isTouching(element)) {
-        score += 2 
+        score += 10
         lsd.splice(lsd.indexOf(element),1)
         lsdTimer +=3
+        scoreTag.innerHTML = score
       }
     })
   }
 
+ 
 
 function generateSpringers() {
-    let aux = Math.floor(Math.random() * canvas.height - 50)
+    let aux = randomNum (30, 550)
     springer.push(new Springer(aux))
   }
 
   function drawSpringer() {
    
-    if (frames % 200 === 0) {
+    if (frames % 150 === 0) {
       generateSpringers()    
     }
     springer.forEach(springer => {
@@ -267,12 +126,15 @@ function update() {
     } else {ctx.clearRect (0,0, canvas.width, canvas.height)
         board.draw()
         board.audio2.pause()
-        board.audio.play()}
+        board.audio.play()
+        drawBullet()
+    }
 
     cocker.draw()
     drawSpringer()
     checkCollition()
     drawLsd()
+    // drawBullet()
     checkCollition1()
     if (lsdTimer>0 && frames % 200 === 0) {
         lsdTimer --    
@@ -295,10 +157,16 @@ function update() {
     } else if (event.keyCode === 37) {
         cocker.moveLeft()
     } else if (event.keyCode === 32){
-        shootBullet(cocker)
+        bullets.push(new Bullet(cocker.x + 80, cocker.y + 35))
     }
 }
 )
+
+// if(keys[70] || keys[32]){
+//     if(frames%30==0){
+//       blastings01.push(new Blast01(spaceship.x + 120, spaceship.y + 55))
+//     }
+//   }
 
 drawCanvas2()
 
