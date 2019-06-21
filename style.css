@@ -11,6 +11,9 @@
     width: 100vw;
     height: 100vh;
     position: absolute;
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-around; */
 }
 .instructions {
     border: 1px solid black;

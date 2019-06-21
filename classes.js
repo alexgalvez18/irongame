@@ -13,7 +13,8 @@ const images = {
     springer: './mathias3.png',
     lsd: './lsd.png',
     background2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpOWYR9obPbf4mKwJWuGAZBnHGemwOqUa-mS8r2g-ttj0YMcA7bQ',
-    bullet: './bone.png'
+    bullet: './bone.png',
+    gameOver: 'https://ak5.picdn.net/shutterstock/videos/12408275/thumb/1.jpg'
 
 }
 
@@ -28,6 +29,8 @@ class Board {
         this.img.src = images.background
         this.img2 = new Image()
         this.img2.src = images.background2
+        this.img3 = new Image ()
+        this.img3.src = images.gameOver
         this.img.onload = () => {
             this.draw()
         }
@@ -53,6 +56,10 @@ class Board {
         ctx.drawImage(this.img2, this.x + canvas.width, this.y, this.width, this.height)
         this.move()
     }
+    draw3(){
+        ctx.drawImage(this.img3, 0, 0, this.width, this.height)
+        
+} 
 }
     
 
@@ -73,7 +80,6 @@ class Character {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
       }
       fire() {
-
       }
       isTouching(spaniel) {
         return (

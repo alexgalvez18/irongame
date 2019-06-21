@@ -111,6 +111,8 @@ function gameOver() {
     interval = false
     board.audio.pause()
     board.audio2.pause()
+    lsd = []
+    board.draw3()
     board.audio1.play()
     
   }
